@@ -3,10 +3,7 @@
 %Staff Supervisor: Wenting Duan
 close all; clc; clear;
 
-% FilterSpec = '.jpg';
-% [FileName,PathName,FilterIndex] = uigetfile(FilterSpec);
-% selectedFile = strcat(PathName,FileName);
-selectedFile = 'C:\Users\Peter\Documents\GitHub\UROS_PhotometricSeedAnalysisProject\Artefact\Images\Capture_00012.jpg';
+selectedFile = 'C:\Users\Peter\Documents\GitHub\UROS_PhotometricSeedAnalysisProject\Artefact\Images\Capture_00050.jpg';
 im = imread(selectedFile);
 
 imStruct = size(im(:,:,:));  % Declaring variables to store key properties of the image
@@ -17,13 +14,13 @@ imChannels = (imStruct(3));
 imGrey = rgb2gray(im); % Greyscale conversion formula: 0.2989 * R + 0.5870 * G + 0.1140 * B 
 imBin = zeros(imRows,imColumns);
 imMedian = zeros(imRows,imColumns);
-
-%imBin = im2bw(imGrey,graythresh(imGrey));
-%imBinC = ~imBin;
-%D = bwdist(imBinC);
-%L = watershed(-D);
-%w = L == 0;
-%g2 = imBin & ~w;
+% 
+% imBin = im2bw(imGrey,graythresh(imGrey));
+% imBinC = ~imBin;
+% D = bwdist(imBinC);
+% L = watershed(-D);
+% w = L == 0;
+% g2 = imBin & ~w;
 
 cform = makecform('srgb2lab');
 lab_he = applycform(im,cform);
@@ -46,7 +43,9 @@ for k = 1:nColors
 end
 
 figure;
-imshow(segmented_images{2}), title('objects in cluster 2');
+imshow(segmented_images{2});
 figure;
 imshow(im);
+% figure;
+% imshow(g2);
 %end of script
