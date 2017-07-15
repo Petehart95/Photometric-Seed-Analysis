@@ -10,29 +10,39 @@ imStruct = size(im(:,:,:));  % Store the structural data about the image
 imRows = (imStruct(1)); imColumns = (imStruct(2)); imChannels = (imStruct(3)); % Store structure data into separate variables (for clarity)
 
 % IMAGE ENHANCEMENT
-im2 = imtophat(im,strel('disk',10));
-imGrey = rgb2gray(im2); % Greyscale conversion formula: 0.2989 * R + 0.5870 * G + 0.1140 * B 
-imGrey = imadjust(imGrey);
-imHist = histeq(imGrey); %histogram equalisation
+%im2 = imtophat(im,strel('disk',10));
+imGrey = rgb2gray(im); % Greyscale conversion formula: 0.2989 * R + 0.5870 * G + 0.1140 * B 
+imAdj = imadjust(imGrey);
+imHist = adapthisteq(imGrey); %histogram equalisation
 
 
 
 % SEGMENTATION
+% CANNY
 
+%custom canny edge detector with bilateral filter
+BW = edge(imAdj,'Canny',[],20);
+BW = imdilate(BW,strel('square',2));
+BW = imfill(BW,'holes');
+
+figure;
+imshow(BW);
+figure;
+imshow(imAdj);
 % WATERSHED
-
-imBin = im2bw(imGrey,graythresh(imGrey));
-imBinC = ~imBin;
-imBinED = bwdist(imBinC,'euclidean'); 
-L = watershed(-imBinED); %label matrix
-w = L == 0;
-g2 = imBin & ~w;
-im2 = imdilate(imBinED,strel('disk',12));
-im2 = imerode(im2,strel('disk',12));
-figure;
-imshow(g2);
-figure;
-imshow(im2);
+% 
+% imBin = im2bw(imHist,graythresh(imHist));
+% imBinC = ~imBin;
+% imBinED = bwdist(imBinC,'euclidean'); 
+% L = watershed(-imBinED); %label matrix
+% w = L == 0;
+% g2 = imBin & ~w;
+% im2 = imopen(imBinED,strel('disk',4));
+% 
+% figure;
+% imshow(imBinED);
+% figure;
+% imshow(~im2);
 % K-MEANS CLUSTERING
 % cform = makecform('srgb2lab');
 % lab_he = applycform(im,cform);
