@@ -6,17 +6,14 @@
 close all; clc; clear; % Reset
 
 % Dialog box for file selection (filter = .jpg,.png)
-[fileNames, pathName, filterIndex] = uigetfile({'*.jpg;*.png;','All Image Files';'*.*','All Files'},'Select Input Images...','MultiSelect', 'on');
+[fileNames, pathName, filterIndex] = uigetfile({'*.jpg;*.png;','All Image Files';...
+          '*.*','All Files'},'Select Input Images...','MultiSelect', 'on');
 
-% Check if only one file is selected
-if ~iscell(fileNames)
-    fileNames = {fileNames}; % If only one file is selected, ensure the file name is cell and not character
-end 
-
-totalFiles = size(fileNames,2); % Store total count for how many files are going to be processed.
-
+totalFiles = size(fileNames,2);
 for i=1:totalFiles % Iterate until processed all selected files
-    selectedFile = strcat(pathName,char(fileNames(i))); %concatenate selected file and the folder path
+    test = fileNames(1);
+    test2 = fileNAmes
+    selectedFile = strcat(pathName,fileNames); %concatenate selected file and the folder path
     im = double(imread(selectedFile)); % Gather input
     imStruct = size(im(:,:,:));  % Store the structural data about the image
     imRows = (imStruct(1)); imColumns = (imStruct(2)); % Store structure data into separate variables (for clarity)
